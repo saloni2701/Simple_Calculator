@@ -1,0 +1,40 @@
+def evaluate_postfix(expression):
+    stack = []
+    
+    # Split the expression into tokens (numbers and operators)
+    tokens = expression.split()
+    
+    for token in tokens:
+        # Check if the token is an operator
+        if token in '+-*/':
+            # Pop two operands from the stack
+            b = stack.pop()
+            a = stack.pop()
+            
+            # Perform the operation and push the result back onto the stack
+            result = perform_operation(a, b, token)
+            stack.append(result)
+        else:
+            # If the token is a number, push it onto the stack
+            stack.append(int(token))
+    
+    # The final result should be the only value left in the stack
+    return stack.pop()
+
+def perform_operation(a, b, operator):
+    if operator == '+':
+        return a + b
+    elif operator == '-':
+        return a - b
+    elif operator == '*':
+        return a * b
+    elif operator == '/':
+        return a // b  # Use integer division for Python 3
+    else:
+        raise ValueError("Invalid operator: " + operator)
+
+# Example usage
+if __name__ == "__main__":
+    expression = "5 1 2 + 4 * + 3 -"  # Example postfix expression
+    result = evaluate_postfix(expression)
+    print("Result:", result)
